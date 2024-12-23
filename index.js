@@ -5,7 +5,7 @@ const {PORT, dbConfigMongo} = require('./config')
 // const routes = require('./routes');
 
 // controller
-// const authRouter = require('./routes/auth')
+const authRouter = require('./routes/auth')
 const studentRouter = require('./routes/StudentController')
 const classRoomRouter = require('./routes/ClassRoomController')
 const routes = require('./routes')
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 //route
 app.use(routes);
-// app.use(authRouter)
+app.use(authRouter)
 app.use(studentRouter)
 app.use(classRoomRouter)
 
@@ -32,13 +32,12 @@ if (dbConfigMongo) {
   // console.log('dbConfigMongo', dbConfigMongo)
   // console.log('mongolive', MONGODB_LIVE)
   if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 4000;
-  app.listen(PORT, () => {
-    console.log(`Server running locally on port ${PORT}`);
-    console.log('berhasil konek db mongo')
-  });
-}
-
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+      console.log(`Server running locally on port ${PORT}`);
+      console.log('berhasil konek db mongo')
+    });
+  }
 } else {
   console.log('belum konek db mongo')
 }
