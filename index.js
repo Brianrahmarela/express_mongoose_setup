@@ -2,31 +2,25 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const {PORT, dbConfigMongo} = require('./config')
-// const routes = require('./routes');
 
 // controller
-const authRouter = require('./routes/auth')
-const studentRouter = require('./routes/StudentController')
-const classRoomRouter = require('./routes/ClassRoomController')
+// const authRouter = require('./routes/auth')
+// const studentRouter = require('./routes/StudentController')
+// const classRoomRouter = require('./routes/ClassRoomController')
 const routes = require('./routes')
 
 app.use(cors());
 app.use(express.json());
-app.use((req, res, next) => {
-  // console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
-app.use('/favicon.ico', (req, res) => res.status(204).end());
-
-app.get('/', (req, res) => {
-  res.send("halo")
-})
+// app.use((req, res, next) => {
+//   // console.log(`Incoming request: ${req.method} ${req.url}`);
+//   next();
+// });
 
 //route
 app.use(routes);
-app.use(authRouter)
-app.use(studentRouter)
-app.use(classRoomRouter)
+// app.use(authRouter)
+// app.use(studentRouter)
+// app.use(classRoomRouter)
 
 if (dbConfigMongo) {
   // console.log('dbConfigMongo', dbConfigMongo)
