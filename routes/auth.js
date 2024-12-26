@@ -24,31 +24,52 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     //ambil data dari user
     const {username, password} = req.body
-    // console.log('pass', password)
-    // console.log(typeof password)
     //ambil data dari db
-    let user = await Student.findOne({username})
-    // console.log('user', user)
+    try {
+        let user = await Student.findOne({ username });
 
-    //cek apakah datanya ada & password sama
-    if (user && bcrypt.compareSync(password, user.password)) {
-        // console.log(user)
-        //ubah dokumen dari mongodb ke plain object
-        user = user.toObject()
-        const {password, ...payload} = user
-        // console.log('user =>', user)
-        // console.log('payload =>', payload)
-        // console.log('password =>', password)
-        //buat token
-        const token = jwt.sign(payload, JWT_KEY) 
-        res.json({
-            message: "login success",
-            token
-        })
-    } else {
-        res.json({
-            message: "Invalid email and password",
-        })  
+        if (user && bcrypt.compareSync(password, user.password)) {
+            user = user.toObject();
+            const { password, ...payload } = user;
+            const token = jwt.sign(payload, JWT_KEY);
+
+            res.status(200).json({
+                meta: {
+                    message: "success",
+                    code: 200,
+                    status: 200,
+                },
+                data: {
+                    content: [
+                        {
+                            token,
+                        },
+                    ],
+                },
+            });
+        } else {
+            res.status(401).json({
+                meta: {
+                    message: "Invalid email and password",
+                    code: 401,
+                    status: 401,
+                },
+                data: {
+                    content: [],
+                },
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            meta: {
+                message: "Internal server error",
+                code: 500,
+                status: 500,
+            },
+            data: {
+                content: [],
+            },
+        });
     }
 })
 
