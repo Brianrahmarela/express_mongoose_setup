@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const classRoomSchema = new Schema({
-    name: {
+    username: {
         type: String,
         require: true,
     },

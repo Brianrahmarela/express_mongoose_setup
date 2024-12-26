@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
 
     if(!hashPassword) throw new Err("error hash password")
     const student = await Student.create({
-        name: user.name,
+        username: user.username,
         password: hashPassword,
     })
     res.json({
@@ -23,11 +23,11 @@ router.post("/register", async (req, res) => {
 })
 router.post("/login", async (req, res) => {
     //ambil data dari user
-    const {name, password} = req.body
+    const {username, password} = req.body
     // console.log('pass', password)
     // console.log(typeof password)
     //ambil data dari db
-    let user = await Student.findOne({name})
+    let user = await Student.findOne({username})
     // console.log('user', user)
 
     //cek apakah datanya ada & password sama
